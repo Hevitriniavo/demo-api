@@ -15,7 +15,12 @@ jobs:
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - run: railway up --service=${{ env.SVC_ID }}
+      - name: Deploy to Railway
+        run: |
+          echo "Service ID: ${{ secrets.SVC_ID }}"
+          echo "Token: ${{ secrets.RAILWAY_TOKEN }}"
+          railway up --service=${{ secrets.SVC_ID }}
+
 
   build:
     runs-on: ubuntu-latest

@@ -35,26 +35,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.register('rendreJarExecutable') {
-	doLast {
-		def fichierJar = file("build/libs/ton-application.jar")
-		if (fichierJar.exists()) {
-			fichierJar.setExecutable(true)
-		} else {
-			println "Le fichier JAR n'a pas été trouvé."
-		}
-	}
+springBoot {
+	mainClass.set('com.fresh.coding.demoapi.DemoApiApplication')
 }
-
-tasks.withType(JavaExec).configureEach {
-	executable = 'java'
-	args = ['-jar', file('build/libs/ton-application.jar').absolutePath]
-}
-
-bootJar {
-	archiveFileName = 'ton-application.jar'
-	mainClass = 'com.fresh.coding.demoapi.DemoApiApplication'
-}
-
-
-build.finalizedBy(rendreJarExecutable)
