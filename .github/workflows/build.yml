@@ -3,8 +3,20 @@ name: Build Project
 on:
   push:
     branches: [ "main", "develop"]
+  workflow_dispatch:
 
 jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    container: ghcr.io/railwayapp/cli:latest
+    env:
+      SVC_ID: my-service-id
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: railway up --service=${{ env.SVC_ID }}
+
   build:
     runs-on: ubuntu-latest
 
@@ -23,3 +35,4 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build -x test
+
